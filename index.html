@@ -1,51 +1,67 @@
-function init() {
-let formTemplate = document.getElementById("recipe-form-template").innerHTML;
-let formTemplateFn = Handlebars.compile(formTemplate);
-document.getElementById('main').innerHTML = formTemplateFn({ingredients: ['','','','','']});
-
-Handlebars.registerPartial('recipeDetailsPartial', document.getElementById("recipe-details-partial").innerHTML)
-Handlebars.registerHelper('displayIngredient', function(ingredient) {
-  return new Handlebars.SafeString('<li name="ingredients">' + ingredient + '</li>');
-})
-}
-
-function handleSubmit() {
-  //set variables from form
-  let recipe = {}
-  let nameNode = document.getElementById('name');
-  let descriptionNode = document.getElementById('description');
-  let ingredientNodes = document.getElementsByName('ingredients');
-  //set attribute values
-  recipe.name = nameNode.value;
-  recipe.description = descriptionNode.value;
-  recipe.ingredients = [];
-  for(var i = 0 ; i < ingredientNodes.length ; i++) {
-    recipe.ingredients.push(ingredientNodes[i].value);
-  }
-  let recipeTemplate = document.getElementById('recipe-template').innerHTML;
-  let recipeTemplateFn = Handlebars.compile(recipeTemplate);
-  document.getElementById('main').innerHTML = recipeTemplateFn(recipe);
-}
-
-function displayEditForm() {
-  //set variables from form
-  let recipe = {}
-  let nameNode = document.getElementById('name');
-  let descriptionNode = document.getElementById('description');
-  let ingredientNodes = document.getElementsByName('ingredients');
-  //set attribute values
-  recipe.name = nameNode.innerHTML;
-  recipe.description = descriptionNode.innerHTML;
-  recipe.ingredients = [];
-  for(var i = 0; i < ingredientNodes.length; i++) {
-    recipe.ingredients.push(ingredientNodes[i].innerHTML);
-  }
-  let recipeFormTemplate = document.getElementById('recipe-form-template').innerHTML;
-  let recipeFormTemplateFn = Handlebars.compile(recipeFormTemplate);
-  document.getElementById('main').innerHTML = recipeFormTemplateFn(recipe)
-}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mocha</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="node_modules/mocha/mocha.css" />
+  </head>
+  <body>
+    <main id="main">
+    </main>
 
 
-document.addEventListener("DOMContentLoaded", function(event) {
-  init()
-})
+  <script src="node_modules/handlebars/dist/handlebars.min.js"></script>
+  <script src="index.js"></script>
+
+  <!--make recipe-form-template-->
+  <script id="recipe-form-template" type="text/x-handlebars-template">
+    <form id="recipe-form" onsubmit="handleSubmit(); return false;">
+      <p>
+        <label for="name">Name: </label>
+        <input id="name" name="name" type="text" value="{{name}}" />
+      </p>
+      <p>
+        <label for="description">Description: </label>
+        <input id="description" name="description" type="text" value="{{description}}" />
+      </p>
+
+        {{#each ingredients}}
+
+      <p>
+        <label for="ingredients">Ingredient: </label>
+        <input name="ingredients" type="text" value="{{this}}" />
+      </p>
+      {{/each}}
+      <p>
+        <input type="submit" />
+      </p>
+    </form>
+  </script>
+
+  <!--Make recipe-template-->
+  <script id="recipe-template" type="text/x-handlebars-template">
+    <h2 id="name">{{name}}</h2>
+    <a href="#" onclick="displayEditForm();">Edit Recipe</a>
+    {{> recipeDetailsPartial}}
+  </script>
+
+  <!--Make recipe-details-partial-->
+  <script id="recipe-details-partial" type="text/x-handlebars-template">
+    <p id="description">{{description}}</p>
+    {{#each ingredients}}
+    {{ displayIngredient this}}
+    {{/each}}
+  </script>
+
+
+
+
+  <!-- Open this file and call `mocha.run()` in console to run tests -->
+  <div id="mocha"></div>
+   <script src="node_modules/mocha/mocha.js"></script>
+   <script src="node_modules/expect/umd/expect.min.js"></script>
+   <script>mocha.setup('bdd');</script>
+   <script src="test/index-test.js"></script>
+ </body>
+</html>
