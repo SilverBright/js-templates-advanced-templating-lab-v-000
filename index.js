@@ -26,7 +26,7 @@ function displayEditForm() {
   for(var i=0;i<ingredientsNodes.length;i++) {
     ingredients.push(ingredientsNodes[i].innerText)
   }
-
+}
 
 function handlebarsSetup() {
   Handlebars.registerHelper('displayIngredient', function(ingredient) {
