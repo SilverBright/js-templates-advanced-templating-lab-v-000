@@ -4,6 +4,9 @@ function initForm() {
   document.getElementsByTagName("main")[0].innerHTML = template({'submitAction': 'createRecipe()'})
 }
 
+
+
+
 document.addEventListener("DOMContentLoaded", function(event) {
   init()
 })
