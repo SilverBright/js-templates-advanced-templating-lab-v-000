@@ -28,6 +28,8 @@ function displayEditForm() {
   }
 }
 
+
+
 function handlebarsSetup() {
   Handlebars.registerHelper('displayIngredient', function(ingredient) {
     return new Handlebars.SafeString('<li name="ingredientsList">' + ingredient + '</li>')
