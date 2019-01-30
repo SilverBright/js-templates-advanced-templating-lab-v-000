@@ -5,7 +5,7 @@ function initForm() {
 }
 
 function createRecipe() {
-  var recipe = getRecipeVals()
+  var recipe = getRecipeVals() // 5. organize the input values
   var recipeTemplate = document.getElementById("recipe-template").innerHTML
   var template = Handlebars.compile(recipeTemplate)
   document.getElementById("main").innerHTML = template(recipe)
@@ -26,10 +26,10 @@ function displayEditForm() {
   for(var i=0;i<ingredientsNodes.length;i++) {
     ingredients.push(ingredientsNodes[i].innerText)
   }
-  var recipe = {name, description, ingredients, submitAction: 'createRecipe()'}
+
+  var recipe = {name, description, ingredients, submitAction: 'updateRecipe()'}
   var recipeFormTemplate = document.getElementById("recipe-form-template").innerHTML
   var template = Handlebars.compile(recipeFormTemplate)
-  
   document.getElementById("main").innerHTML = template(recipe)
 }
 
@@ -47,9 +47,6 @@ function getRecipeVals() {
   return(recipe)
 }
 
-
-
-
 function handlebarsSetup() {
   Handlebars.registerHelper('displayIngredient', function(ingredient) {
     return new Handlebars.SafeString('<li name="ingredientsList">' + ingredient + '</li>')
@@ -59,7 +56,6 @@ function handlebarsSetup() {
 }
 
 function init() {
-  //put any page initialization/handlebars initialization here
   handlebarsSetup()
   initForm()
 }
